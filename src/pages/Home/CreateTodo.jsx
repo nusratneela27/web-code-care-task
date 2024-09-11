@@ -43,9 +43,8 @@ const CreateTodo = ({
             >
               <div className="flex items-center gap-4">
                 <input
-                  type="radio"
-                  name={`radio-${task.id}`}
-                  className="radio radio-primary"
+                  type="checkbox"
+                  className="checkbox checkbox-primary"
                   checked={task.isCompleted}
                   onChange={() => handleCompleteTask(task.id)}
                 />
