@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-const CreateTodo = () => {
+const CreateTodo = ({
+  tasks,
+  addTask,
+  handleCompleteTask,
+  handleRemoveTask,
+  filter,
+  setFilter,
+}) => {
   const [todoText, setTodoText] = useState("");
-  const [tasks, setTasks] = useState([]);
-  const [filter, setFilter] = useState("All");
-
-  useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem("todos")) || [];
-    setTasks(storedTasks);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(tasks));
-  }, [tasks]);
 
   const handleInputChange = (e) => {
     setTodoText(e.target.value);
@@ -20,39 +16,10 @@ const CreateTodo = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && todoText.trim() !== "") {
-      const newTask = {
-        id: Date.now(),
-        isCompleted: false,
-        todoText: todoText,
-      };
-
-      const updatedTasks = [...tasks, newTask];
-      setTasks(updatedTasks);
+      addTask(todoText);
       setTodoText("");
     }
   };
-
-  const handleCompleteTask = (id) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === id ? { ...task, isCompleted: !task.isCompleted } : task
-    );
-    setTasks(updatedTasks);
-  };
-
-  const handleRemoveTask = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
-    setTasks(updatedTasks);
-  };
-
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === "Completed") {
-      return task.isCompleted;
-    }
-    if (filter === "Active") {
-      return !task.isCompleted;
-    }
-    return true;
-  });
 
   return (
     <div>
@@ -63,18 +30,12 @@ const CreateTodo = () => {
           className="input input-lg w-full mt-24 placeholder:font-semibold placeholder:text-xl"
           value={todoText}
           onChange={handleInputChange}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              if (todoText.trim()) {
-                handleKeyPress(e);
-              }
-            }
-          }}
+          onKeyPress={handleKeyPress}
         />
       </div>
 
       <div className="mt-6 rounded-lg bg-purple-50 shadow-2xl text-gray-700 font-semibold">
-        {filteredTasks.map((task) => (
+        {tasks.map((task) => (
           <>
             <div
               key={task.id}
@@ -99,7 +60,7 @@ const CreateTodo = () => {
         ))}
 
         <div className="flex justify-between items-center py-5 px-5">
-          <p>{filteredTasks.length} Items Left</p>
+          <p>{tasks.length} Items Left</p>
           <div className="flex gap-3">
             <p
               onClick={() => setFilter("All")}
