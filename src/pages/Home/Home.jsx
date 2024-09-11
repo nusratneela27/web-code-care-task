@@ -18,7 +18,8 @@ const Home = () => {
   return (
     <div className="relative">
       <img
-        className="w-full object-cover"
+        className="w-full object-cover h-72 md:h-96"
+
         src={theme === "light" ? bgLight : bgDark}
         alt=""
       />

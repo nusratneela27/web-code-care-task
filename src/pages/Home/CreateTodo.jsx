@@ -27,7 +27,7 @@ const CreateTodo = ({
         <input
           type="text"
           placeholder="Create a new todo..."
-          className="input input-lg w-full mt-24 placeholder:font-semibold placeholder:text-xl"
+          className="input input-lg w-full mt-24 placeholder:font-semibold placeholder:text-xl bg-purple-50"
           value={todoText}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
@@ -59,7 +59,7 @@ const CreateTodo = ({
           </>
         ))}
 
-        <div className="flex justify-between items-center py-5 px-5">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-2 md:space-y-0 py-5 px-5">
           <p>{tasks.length} Items Left</p>
           <div className="flex gap-3">
             <p
